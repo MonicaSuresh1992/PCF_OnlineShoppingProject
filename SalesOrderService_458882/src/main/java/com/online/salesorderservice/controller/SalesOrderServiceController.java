@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.netflix.appinfo.InstanceInfo;
+//import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.online.salesorderservice.domain.Customer;
@@ -32,8 +32,8 @@ public class SalesOrderServiceController {
 
 	Logger logger = LoggerFactory.getLogger(SalesOrderServiceController.class); 
 	
-	@Autowired
-	private EurekaClient discoveryClient;
+//	@Autowired
+//	private EurekaClient discoveryClient;
 
 	@Autowired
 	CustomerSOSRepository customerSOSRepository;
@@ -199,34 +199,34 @@ public class SalesOrderServiceController {
 		customerSOSRepository.save(customerSOS);
 	}
 
-	// This method is for implementing Ribbon - Client side load balancing
-//	private String fetchItemServiceUrl() {
-//
-//		//System.out.println("Inside fetchItemServiceUrl");
-//
-//
-//		ServiceInstance instance = loadBalancerClient.choose("item-service_458882");
-//
-//		//System.out.println("After fetching instance in fetchItemServiceUrl");
-//		//System.out.println("uri: {}"+ instance.getUri().toString());
-//		//System.out.println("serviceId: {}"+ instance.getServiceId());
-//
-//		return instance.getUri().toString();
-//	}
-	
+	 //This method is for implementing Ribbon - Client side load balancing
 	private String fetchItemServiceUrl() {
 
-		System.out.println("Inside fetchItemServiceUrl");
+		//System.out.println("Inside fetchItemServiceUrl");
 
 
-		InstanceInfo instance = discoveryClient.getNextServerFromEureka("item-service_458882",false);
+		ServiceInstance instance = loadBalancerClient.choose("458882-item-service");
 
-		System.out.println("After fetching instance in fetchItemServiceUrl");
-		System.out.println("uri: {}"+ instance.getHomePageUrl());
-		System.out.println("serviceId: {}"+ instance.getId());
+		//System.out.println("After fetching instance in fetchItemServiceUrl");
+		System.out.println("uri: {}"+ instance.getUri().toString());
+		System.out.println("serviceId: {}"+ instance.getServiceId());
 
-		return instance.getHomePageUrl();
+		return instance.getUri().toString();
 	}
+	
+//	private String fetchItemServiceUrl() {
+//
+//		System.out.println("Inside fetchItemServiceUrl");
+//
+//
+//		InstanceInfo instance = discoveryClient.getNextServerFromEureka("458882-item-service",false);
+//
+//		System.out.println("After fetching instance in fetchItemServiceUrl");
+//		System.out.println("uri: {}"+ instance.getHomePageUrl());
+//		System.out.println("serviceId: {}"+ instance.getId());
+//
+//		return instance.getHomePageUrl();
+//	}
 
 	public String customerOrItemFallBack(SalesOrderDetails salesOrderDetails){
 		if (salesOrderDetails.getWrongData()!=null && salesOrderDetails.getWrongData().equalsIgnoreCase("WrongCustId")){
