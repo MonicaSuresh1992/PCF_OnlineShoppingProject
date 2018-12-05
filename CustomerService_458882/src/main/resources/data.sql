@@ -1,0 +1,2 @@
+insert into Customer_458882(id,email,first_name,last_name) values('1','vijaykumar@gmail.com','Vijay','Kumar');
+insert into Customer_458882(id,email,first_name,last_name) values('2','sathyaraj@gmail.com','Sathya','Raj');

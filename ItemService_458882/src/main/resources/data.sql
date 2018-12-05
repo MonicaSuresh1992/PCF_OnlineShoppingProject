@@ -1,0 +1,2 @@
+insert into Items_458882(id,name,description,price) values('1','Keyboard','Keyboard - Lenova','2589.76');
+insert into Items_458882(id,name,description,price) values('2','Monitor','Monitor - Asus','8000.00');
